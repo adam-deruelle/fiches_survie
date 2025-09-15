@@ -2,7 +2,7 @@
 
 ---
 
-## 🔹 Modules à importer
+## 🔹 🪄 Modules à importer 🪄
 
 | Module | Description |
 |--------|-------------|
@@ -10,7 +10,7 @@
 | `stdint.h` | Permet de choisir le nombre de bit alloués |
 ---
 
-## 🛠️ Fonctions & classes utilisées
+## 🛠️ Fonctions & classes utilisées 🛠️
 
 | Fonction / Classe | Rôle |
 |-------------------|------|
@@ -228,3 +228,5 @@ adc_result_t ADCC_GetSingleConversion(adc_channel_t channel)
     return ((adc_result_t)((ADRESH << 8) + ADRESL)) ;
 }
 ```
+
+# Maintenant à vous de jouer 🫵

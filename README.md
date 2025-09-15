@@ -1,6 +1,6 @@
 # Fiche de survie Python
 
-[Python](Fiche survie Python.md)
+[Python](./fiche-survie-Python.md)
 
 # Fiche de survie C
-[C](Fiche survive C.md)
+[C](./fiche-survive-C.md)

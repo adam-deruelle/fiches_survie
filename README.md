@@ -1,6 +1,8 @@
-# Fiche de survie Python
+# Fiches de survie pour l'APP 🧙‍♂️
 
-[Python](./Fiche_survie_Python.md)
+## Fiche de survie Python
 
-# Fiche de survie C
-[C](./Fiche_survive_C.md)
+[Python](./Fiche_survie_Python.md) 🐍
+
+## Fiche de survie C
+[C](./Fiche_survive_C.md) 🇨

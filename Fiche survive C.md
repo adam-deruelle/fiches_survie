@@ -6,7 +6,7 @@
 
 | Module | Description |
 |--------|-------------|
-| (`mcc_generated_files/system/system.h`)[## Code Fonctions/Classes] | Initialise tous les modules et fonctions requises |
+| [mcc_generated_files/system/system.h](## Code Fonctions) | Initialise tous les modules et fonctions requises |
 | `stdint.h` | Permet de choisir le nombre de bit alloués |
 ---
 
@@ -202,7 +202,7 @@ int main(void)
         
 }
 ```
-## Code Fonctions/Classes
+## Code Fonctions
 ```C
 // Conversion des résultat du potentiomètre
 adc_result_t ADCC_GetSingleConversion(adc_channel_t channel)

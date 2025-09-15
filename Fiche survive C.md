@@ -6,7 +6,7 @@
 
 | Module | Description |
 |--------|-------------|
-| [mcc_generated_files/system/system.h](# code-fonctions) | Initialise tous les modules et fonctions requises |
+| [mcc_generated_files/system/system.h](#code-fonctions) | Initialise tous les modules et fonctions requises |
 | `stdint.h` | Permet de choisir le nombre de bit alloués |
 ---
 

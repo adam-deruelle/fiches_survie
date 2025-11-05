@@ -1,8 +1,8 @@
 
 # 🌟 Table des Matières
 
-- [🚀 APP1](#-dossier--info3-app1)
-- [🎯 Objectifs](#-objectifs)
+- [🚀 APP 1](#-dossier--info3-app1)
+- [👨‍🚀 APP 2](#-dossier--info3-app2)
 - [🧠 Méthodologie](#-méthodologie)
 - [📊 Résultats & Analyse](#-résultats--analyse)
 - [💬 Discussion](#-discussion)
@@ -11,7 +11,7 @@
 ---
 
 
-# 📂 Dossier : Info3/ APP1
+# 📂 Dossier : Info3 / APP1
 
 ---
 

@@ -19,7 +19,7 @@
 
 ## 📘 Tutos pratiques
 
-### 🔹 Tuto 1 : Scanner les périphériques I2C
+### 🔹 Tuto 1 : Premiers pas sur MCC 👣
 
 Faire clignoter une LED.
 
@@ -42,7 +42,7 @@ int main(void)
 
 ---
 
-### 🔹 Tuto 2 : Mesurer l’accélération
+### 🔹 Tuto 2 : Amélioration pour un usage manuel 📈
 
 Clignoter une LED tant que bouton poussoir pressé.
 
@@ -76,7 +76,7 @@ int main(void)
 
 ---
 
-### 🔹 Tuto 3 : Affichage des valeurs brutes
+### 🔹 Tuto 3 : Tâche trop répitive ? Compteur 🔢
 
 Par appuit BP faire clignoter x fois (utilisation compteur).
 
@@ -122,7 +122,7 @@ int main(void)
 
 ---
 
-### 🔹 Tuto 4 : Calibration de l’accéléromètre
+### 🔹 Tuto 4 : Affichage stylé 😎
 
 Afficher la valeur du potentiomètre (2 acquisitions par secondes).
 
@@ -152,7 +152,7 @@ int main(void)
 
 ---
 
-### 🔹 Tuto 5 : Roulis et tangage
+### 🔹 Tuto 5 : Trop rapide ? Trop lent ? Choisissez ! ⏲
 
 Clignoter des LEDs en modulant la durée grâce au potentiomètre.
 
@@ -202,7 +202,7 @@ int main(void)
         
 }
 ```
-## Code Fonctions
+## Code Fonctions 🛠️
 ```C
 // Conversion des résultat du potentiomètre
 adc_result_t ADCC_GetSingleConversion(adc_channel_t channel)

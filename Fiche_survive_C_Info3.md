@@ -256,7 +256,7 @@ adc_result_t ADCC_GetSingleConversion(adc_channel_t channel)
 
 | Fonction / Classe | Rôle |
 |-------------------|------|
-| [`adc_result_t ADCC_GetSingleConversion(adc_channel_t channel)`](#code-fonctions-app2) | Convertit les valeurs du potentiomètre en int |
+| [`float Conversion_tension_distance(float tension)`](#code-fonctions-app2) | Convertit les valeurs du télémètre en tension|
 
 ---
 ### 🔹 Tuto 1 : Pas la bonne échelle ? 🪜

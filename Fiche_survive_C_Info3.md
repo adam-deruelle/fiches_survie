@@ -3,15 +3,11 @@
 
 - [🚀 APP 1](#-dossier--info3-app1)
 - [👨‍🚀 APP 2](#-dossier--info3-app2)
-- [🧠 Méthodologie](#-méthodologie)
-- [📊 Résultats & Analyse](#-résultats--analyse)
-- [💬 Discussion](#-discussion)
-- [🏁 Conclusion](#-conclusion)
-- [📎 Annexes](#-annexes)
+
 ---
 
 
-# 📂 Dossier : Info3 / APP1
+# 📂 Dossier : Info3/ APP1
 
 ---
 
@@ -27,7 +23,7 @@
 
 | Fonction / Classe | Rôle |
 |-------------------|------|
-| [`adc_result_t ADCC_GetSingleConversion(adc_channel_t channel)`](#code-fonctions) | Convertit les valeurs du potentiomètre en int |
+| [`adc_result_t ADCC_GetSingleConversion(adc_channel_t channel)`](#code-fonctions-app1) | Convertit les valeurs du potentiomètre en int |
 ---
 
 ## 📘 Tutos pratiques
@@ -215,7 +211,7 @@ int main(void)
         
 }
 ```
-## Code Fonctions 🛠️
+## Code Fonctions APP1 🛠️
 ```C
 // Conversion des résultat du potentiomètre
 adc_result_t ADCC_GetSingleConversion(adc_channel_t channel)
@@ -241,5 +237,249 @@ adc_result_t ADCC_GetSingleConversion(adc_channel_t channel)
     return ((adc_result_t)((ADRESH << 8) + ADRESL)) ;
 }
 ```
+## Allons plus loin 🚀
+---
+
+# 📂 Dossier : Info3/ APP2
+
+---
+
+## 🔹 🪄 Modules à importer 🪄
+
+| Module | Description |
+|--------|-------------|
+| `mcc_generated_files/system/system.h`| Initialise tous les modules et fonctions requises |
+| `stdint.h` | Permet de choisir le nombre de bit alloués |
+---
+
+## 🛠️ Fonctions & classes utilisées 🛠️
+
+| Fonction / Classe | Rôle |
+|-------------------|------|
+| [`adc_result_t ADCC_GetSingleConversion(adc_channel_t channel)`](#code-fonctions-app2) | Convertit les valeurs du potentiomètre en int |
+
+---
+### 🔹 Tuto 1 : Pas la bonne échelle ? 🪜
+
+Acquisition de la valeur du télémètre et retour de sa valeur entre 0 et 5V.
+
+```C
+
+int main(void)
+{
+    SYSTEM_Initialize();
+
+    // Initialisation des cariables
+    int16_t val_tel = 0;
+    float val_v = 0;
+    
+    while(1)
+    {
+        // Récupération de la valeur du télémètre
+        val_tel = ADC_ChannelSelectAndConvert(TELEMETRE);
+        // Retour de la valeur entre 0 et 5
+        val_v = (val_tel*5)/1023.0 ;
+        __delay_ms(100);
+
+        // Affichage
+        printf("# %d # \n", val_tel);
+        printf("# %.3f # \n", val_v);
+    }  
+}
+```
+---
+### 🔹 Tuto 2 : Attention devant ! 💥🚗
+
+Détection d'obstacles.
+
+```C
+int main(void)
+{
+    SYSTEM_Initialize();
+
+    // Initialisation des variables
+    int16_t val_tel = 0;
+    float val_v = 0;
+    int16_t telmax = 400;
+    
+    while(1)
+    {
+        // Acquisition de la valeur du télémètre
+        val_tel = ADC_ChannelSelectAndConvert(TELEMETRE);
+        __delay_ms(50);
+
+        // Affichage de la valeur
+        printf("# %d # \n", val_tel);
+        // Cas où il y a un obstacle à moins de 40cm
+        if (val_tel < telmax) 
+        {
+            LED_D_Toggle();
+            LED_G_Toggle();
+            LED_STOP_SetLow();
+        }
+        // Cas où il n'y a plus d'obstacle
+        if (val_tel >= telmax) 
+        {
+            LED_D_SetLow();
+            LED_G_SetLow();
+            LED_STOP_SetHigh();
+        }
+    }  
+}
+```
+---
+### 🔹 Tuto 3 : Méthode N°2 pour obetnir la distance 🥈
+
+Grâce à une série de mesures on trouve une droite de tendence (Excel ou Calc) et on linéarise.
+```C
+// Fonction pour convertir la distance grâce à la linéarisation
+float Conversion_tension_distance(float tension);
+
+int main(void)
+{
+    SYSTEM_Initialize();
+
+    // Initialisation des variables    
+    uint16_t val_v;
+    float dist = 0 ;
+    
+    while(1)
+    {
+        // Choisir le PIN du télémètre
+        ADC_ChannelSelect(TELEMETRE);
+        // Lancer la conversion 
+        ADC_ConversionStart();
+        // On attend que ça se termine
+        while(!ADC_IsConversionDone()){
+
+        }
+        // Message de fin de conversion
+        printf("### Conversion Done ! ###\n");
+        // On récupére la valeur
+        val_v = ADC_FilterValueGet();
+        // On la ramène en tension
+        float tension = ((float)val_v) * 5.0 / 1023.0;
+        // On convertit grâce à notre fonction
+        dist = Conversion_tension_distance(tension);
+        __delay_ms(250);
+        // Affichage
+        printf("# %.1f cm # \n", dist);
+    }  
+}
+
+```
+---
+### 🔹 Tuto 4 : Méthode N°3 pour obetnir la distance 🥉 et un petit bonus avec 🫣
+
+Méthode qui utilise le module ADC pour obtenir la valeur du télémètre.
+
+
+```C
+int main(void)
+{
+    SYSTEM_Initialize();
+
+    // Initialisation des variables
+    int16_t val_pot = 0;
+    int8_t etape = 0;
+    float val_v = 0;
+    
+    while(1)
+    {
+        // Récupération et traitement de la valeur du Pot
+        val_pot = ADC_ChannelSelectAndConvert(POT);
+        etape = (val_pot*3)/1023 ;
+        __delay_ms(50);
+
+        // Affichage
+        printf("# %d # \n", val_pot);
+
+        // Changement de cas
+        switch (etape)
+        {
+            case 0:
+                LED_STOP_SetLow();
+                LED_G_SetLow();
+                LED_D_SetLow();
+                break;
+            case 1:
+                //LED 1
+                LED_G_SetHigh();
+                LED_D_SetLow();
+                LED_STOP_SetLow();
+                break;
+            case 2 :
+                // LED 1 & 2
+                LED_D_SetHigh();
+                LED_G_SetHigh();
+                LED_STOP_SetLow();
+                break;
+            case 3 :
+                // LED Stop
+                LED_D_SetHigh();
+                LED_G_SetHigh();
+                LED_STOP_SetHigh();
+                break;
+        }
+                
+    }  
+}
+```
+
+---
+### 🔹 Tuto 5 : En cours de développement... 🏗️
+
+Clignotement de LED spécifique en fonction de la distance de l'obstacle.
+**Bonus** : Affichage avancé.
+
+```C
+float Conversion_tension_distance(float tension);
+
+
+int main(void)
+{
+    SYSTEM_Initialize();
+
+    // Initialisation des variables
+    uint16_t val_v;
+    uint8_t graphique[] = "Obstacle : [                                      ]";
+    float dist;
+    int index_prec = 12;
+
+    // Boucle principale
+    while(1)
+    {
+        // Affichage
+        graphique[index_prec] = ' ';
+        ADC_ChannelSelect(TELEMETRE);
+        ADC_ConversionStart();
+        while(!ADC_IsConversionDone()){
+
+        }
+        val_v = ADC_FilterValueGet();
+        float tension = ((float)val_v) * 5.0 / 1023.0;
+        dist = Conversion_tension_distance(tension);
+        int index = (int)dist + 12;
+        graphique[index] = 'X';
+        index_prec = index;
+        __delay_ms(250);
+    
+        printf("%s\n", graphique);
+        printf("%d\n", index);
+    }  
+}
+```
+--- 
+
+## Code Fonctions APP2 🛠️
+```C
+// Conversion des résultat du télémètre
+float Conversion_tension_distance(float tension) {
+    float distance = 1/(0.098*tension + 0.014);
+    return distance;
+}
+```
+
+---
 
 # Maintenant à vous de jouer 🫵

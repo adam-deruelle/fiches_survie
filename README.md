@@ -2,7 +2,7 @@
 
 ## Fiche de survie Python
 
-[🐍](./Fiche_survie_Python_APP1.md) 
+[🐍](./Fiche_survie_Python.md) 
 
 ## Fiche de survie C
 [🇨](./Fiche_survive_C_Info3.md)

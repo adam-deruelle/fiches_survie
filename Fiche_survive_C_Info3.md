@@ -480,5 +480,179 @@ float Conversion_tension_distance(float tension) {
 ```
 
 ---
+# 📂 Dossier : Info3/ APP3
 
+---
+
+## 🔹 🪄 Modules à importer 🪄
+
+| Module | Description |
+|--------|-------------|
+| `mcc_generated_files/system/system.h`| Initialise tous les modules et fonctions requises |
+| `stdint.h` | Permet de choisir le nombre de bit alloués |
+|`xc.h` | Permet d'importer plein de truc utilie au robot pour les moteurs |
+---
+
+## 🛠️ Fonctions & classes utilisées 🛠️
+
+| Fonction / Classe | Rôle |
+|-------------------|------|
+|[`void marche_avant(int x, uint16_t d);`](#marche-avant)| Met le robot en marche avant à la vitesse demandée |
+|[`void marche_arriere(int x, uint(16t d);`](#marche-arrière)| Met le robot en marche arrière à la vitesse demandée |
+|[`void gauche(int x, uint16_t d);`](#tourner-à-gauche)| Fait tourner le robot vers la gauche à la vitesse demandée |
+|[`void droite(int x, uint16_t d);`](#tourner-à-droite)| Fait tourner le robot vers la droite à la vitesse demandée |
+|[`void stop(int x);`](#arrêt)| Arrête le robot |
+|[`char entree_utilisateur();`](#entrée-utilisateur)| Lit une entrée utilisateur (1 seul chararctère) |
+|[`void select_mode(char mode, int time);`](#choix-du-mode)| Permet de selectionner le mode de fonctionnment du robot en fonction de l'entrée utilisateur |
+---
+
+### Moteur Gauche
+| PWM1_G | PWM2_G | Direction |
+|--------|--------|-----------|
+| 0 | α | Arrière |
+| α | 0 | Avant |
+
+### Moteur Droit
+| PWM1_D | PWM2_D | Direction |
+|--------|--------|-----------|
+| 0 | α | Arrière |
+| α | 0 | Avant |
+
+### Rotation sur place
+| Sens | Moteur Gauche | Moteur Droit |
+|------|---------------|--------------|
+| ⟲ Gauche | Arrière | Avant |
+| ⟳ Droite | Avant | Arrière |
+
+
+###  Marche avant
+```C
+void marche_avant(int x, uint16_t d){
+    // Allumer Led Jaune
+    LED_GAUCHE_SetHigh();
+    LED_DROITE_SetHigh();
+    
+    // Marche avant
+    PWM1_D_LoadDutyValue(d);
+    PWM2_D_LoadDutyValue(0);
+    PWM1_G_LoadDutyValue(d);
+    PWM2_G_LoadDutyValue(0);
+    
+    // Affichage
+    delay_variable_ms(x);
+    // Eteindre les leds
+    LED_GAUCHE_SetLow();
+    LED_DROITE_SetLow();
+    
+}
+```
+
+###  Marche arrière
+```C
+void marche_arriere(int x, uint16_t d){
+    // Allumer les leds stop
+    LED_STOP_SetHigh();
+    // Marche arriere
+    PWM1_D_LoadDutyValue(0);
+    PWM2_D_LoadDutyValue(d);
+    PWM1_G_LoadDutyValue(0);
+    PWM2_G_LoadDutyValue(d);
+    // Affichage
+    delay_variable_ms(x);
+    // Eteindre led
+    LED_STOP_SetLow();
+}
+```
+###  Tourner à gauche
+```C
+void gauche (int x, uint16_t d){
+    // Allumer Led Jaune
+    LED_GAUCHE_SetHigh();
+    LED_DROITE_SetLow();
+    
+    // Marche avant
+    PWM1_D_LoadDutyValue(d);
+    PWM2_D_LoadDutyValue(0);
+    PWM1_G_LoadDutyValue(0);
+    PWM2_G_LoadDutyValue(d);
+    
+    // Affichage
+    delay_variable_ms(x);
+    // Eteindre les leds
+    LED_GAUCHE_SetLow();
+    LED_DROITE_SetLow();
+    
+}
+```
+###  Tourner à droite
+```C
+void droite (int x, uint16_t d){
+    // Allumer Led Jaune
+    LED_GAUCHE_SetLow();
+    LED_DROITE_SetHigh();
+    
+    // Marche avant
+    PWM1_D_LoadDutyValue(0);
+    PWM2_D_LoadDutyValue(d);
+    PWM1_G_LoadDutyValue(d);
+    PWM2_G_LoadDutyValue(0);
+    
+    // Affichage
+    delay_variable_ms(x);
+    // Eteindre les leds
+    LED_GAUCHE_SetLow();
+    LED_DROITE_SetLow();
+```
+###  Arrêt
+```C   
+}
+void stop(int x){
+    // Stop
+    PWM1_D_LoadDutyValue(0);
+    PWM2_D_LoadDutyValue(0);
+    PWM1_G_LoadDutyValue(0);
+    PWM2_G_LoadDutyValue(0);
+    //Affichage
+    delay_variable_ms(x);
+}
+```
+
+###  Entrée utilisateur
+```C
+char entree_utilisateur(){
+    mode = EUSART_Read();
+    __delay_ms(1000);
+    return mode;
+}
+```
+###  Choix du mode
+```C
+void select_mode(char mode, int time){
+    switch(mode){
+            case 'F':
+                marche_avant(time, ADC_ChannelSelectAndConvert(POT));
+                printf("## Marche avant ##\n");
+                break;
+            case 'B':
+                marche_arriere(time,ADC_ChannelSelectAndConvert(POT));
+                printf("## Marche arriere ##\n");
+                break;
+            case 'S':
+                stop(time);
+                printf("## STOP ##\n");
+                break;
+            case 'L':
+                gauche(time,ADC_ChannelSelectAndConvert(POT));
+                printf("## Gauche ##\n");
+                break;
+            case 'R':
+                droite(time,ADC_ChannelSelectAndConvert(POT));
+                printf("## Droite ##\n");
+                break;
+            default:
+                printf("Invalid Input \n");
+                break;             
+        }
+}
+```
 # Maintenant à vous de jouer 🫵

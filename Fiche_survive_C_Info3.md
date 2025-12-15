@@ -9,7 +9,6 @@
 
 # 📂 Dossier : Info3/ APP1
 
----
 
 ## 🔹 🪄 Modules à importer 🪄
 

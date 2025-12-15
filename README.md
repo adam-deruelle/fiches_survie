@@ -6,3 +6,6 @@
 
 ## Fiche de survie C
 [🇨](./Fiche_survive_C_Info3.md)
+
+## Procédures
+[Procédure de création de projet](./Procédure de création de projet.pdf)

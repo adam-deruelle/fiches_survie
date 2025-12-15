@@ -3,6 +3,7 @@
 
 - [🚀 APP 1](#-dossier--info3-app1)
 - [👨‍🚀 APP 2](#-dossier--info3-app2)
+- [APP 3](#-dossier--info3-app3)
 
 ---
 
@@ -504,6 +505,7 @@ float Conversion_tension_distance(float tension) {
 |[`void stop(int x);`](#arrêt)| Arrête le robot |
 |[`char entree_utilisateur();`](#entrée-utilisateur)| Lit une entrée utilisateur (1 seul chararctère) |
 |[`void select_mode(char mode, int time);`](#choix-du-mode)| Permet de selectionner le mode de fonctionnment du robot en fonction de l'entrée utilisateur |
+|[`void delay_variable_ms(int time);`](#délai-variable)| Permet de faire un délai dans le code de la valeur souhaitée |
 ---
 
 ### Moteur Gauche
@@ -526,6 +528,7 @@ float Conversion_tension_distance(float tension) {
 
 
 ###  Marche avant
+
 ```C
 void marche_avant(int x, uint16_t d){
     // Allumer Led Jaune
@@ -653,6 +656,14 @@ void select_mode(char mode, int time){
                 printf("Invalid Input \n");
                 break;             
         }
+}
+```
+### Délai variable
+```C
+void delay_variable_ms(int time){
+    for(int i; i<time; i++){
+        __delay_ms(1);
+    }
 }
 ```
 # Maintenant à vous de jouer 🫵
